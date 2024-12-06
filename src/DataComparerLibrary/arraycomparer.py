@@ -69,13 +69,13 @@ class ArrayComparer:
                     # Replace literal templates with fixed external strings.
                     if template_literals_dict:
                         for i in range(0, len(template_literals_dict)):
-                            key = list(template_literals_dict.keys())[i]
-                            value = list(template_literals_dict.values())[i]
-                            print("key: ", key)
-                            print("value: ", value)
+#                           key = list(template_literals_dict.keys())[i]
+#                           value = list(template_literals_dict.values())[i]
+#                           print("key: ", key)
+#                           print("value: ", value)
                             expected_data_including_templates[row_nr][column_nr] = expected_data_including_templates[row_nr][column_nr].replace(list(template_literals_dict.keys())[i], list(template_literals_dict.values())[i])
-                            print("actual_data[row_nr][column_nr]: \n", actual_data[row_nr][column_nr])
-                            print("expected_data_including_templates[row_nr][column_nr]: \n", expected_data_including_templates[row_nr][column_nr])
+#                           print("actual_data[row_nr][column_nr]: \n", actual_data[row_nr][column_nr])
+#                           print("expected_data_including_templates[row_nr][column_nr]: \n", expected_data_including_templates[row_nr][column_nr])
 
 
                     # Verify if difference is a matter of string versus integer representation.
