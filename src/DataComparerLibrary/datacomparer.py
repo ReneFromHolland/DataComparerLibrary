@@ -8,152 +8,128 @@ from DataComparerLibrary.arraycomparer import ArrayComparer
 
 class DataComparer:
     def compare_data_2d_array_with_file(self, actual_data, expected_file, delimiter_expected_data=",", quotechar_expected_data='"', template_literals_dict=None):
-        if 'actual_data' not in locals():
-            raise Exception("Input Actual data unknown.")
+        self.__check_if_actual_data_is_present(actual_data)
+        self.__check_if_expected_file_is_present(expected_file)        
         #
-        if not os.path.exists(expected_file):
-            raise Exception("Input file doesn't exists: ", expected_file)
-        #
-        print("expected_file: ", expected_file)
-        #
-        with open(expected_file, mode='rt', encoding='utf-8') as expected_file:
-            if len(delimiter_expected_data) == 1:
-                expected_data = list(csv.reader(expected_file, delimiter=delimiter_expected_data, quotechar=quotechar_expected_data))
-            else:
-                expected_data = list(csv.reader((line.replace(delimiter_expected_data, chr(255)) for line in expected_file), delimiter=chr(255), quotechar=quotechar_expected_data))
+        expected_data = self.__open_csv_input_file(expected_file, delimiter_expected_data, quotechar_expected_data)
         #
         ArrayComparer.compare_data(self, actual_data, expected_data, template_literals_dict)
 
 
     def compare_data_file_with_2d_array(self, actual_file, expected_data, delimiter_actual_data=",", quotechar_actual_data='"', template_literals_dict=None):
-        if not os.path.exists(actual_file):
-            raise Exception("Input file doesn't exists: ", actual_file)
+        self.__check_if_actual_file_is_present(actual_file)      
+        self.__check_if_expected_data_is_present(expected_data)
         #
-        if 'expected_data' not in locals():
-            raise Exception("Input Expected data unknown.")
-        #
-        print("actual_file: ", actual_file)
-        #
-        with open(actual_file, mode='rt', encoding='utf-8') as actual_file:
-            if len(delimiter_actual_data) == 1:
-                actual_data = list(csv.reader(actual_file, delimiter=delimiter_actual_data, quotechar=quotechar_actual_data))
-            else:
-                actual_data = list(csv.reader((line.replace(delimiter_actual_data, chr(255)) for line in actual_file), delimiter=chr(255), quotechar=quotechar_actual_data))
+        actual_data = self.__open_csv_input_file(actual_file, delimiter_actual_data, quotechar_actual_data)
         #
         ArrayComparer.compare_data(self, actual_data, expected_data, template_literals_dict)
 
 
     def compare_data_2d_arrays(self, actual_data, expected_data, template_literals_dict=None):
-        if 'actual_data' not in locals():
-            raise Exception("Input Actual data unknown.")
-        #
-        if 'expected_data' not in locals():
-            raise Exception("Input Expected data unknown.")
+        self.__check_if_actual_data_is_present(actual_data)
+        self.__check_if_expected_data_is_present(expected_data) 
         #
         ArrayComparer.compare_data(self, actual_data, expected_data, template_literals_dict)
 
 
     def compare_data_files(self, actual_file, expected_file, delimiter_actual_data=",", delimiter_expected_data=",", quotechar_actual_data='"', quotechar_expected_data='"', template_literals_dict=None):
-        for file in (actual_file, expected_file):
-            if not os.path.exists(file):
-                raise Exception("Input file doesn't exists: ", file)
+        self.__check_if_actual_file_is_present(actual_file) 
+        self.__check_if_expected_file_is_present(expected_file)            
         #
-        print("actual_file: ", actual_file)
-        print("expected_file: ", expected_file)
-        #
-        with open(actual_file, mode='rt', encoding='utf-8') as actual_file, open(expected_file, mode='rt', encoding='utf-8') as expected_file:
-            if len(delimiter_actual_data) == 1:
-                actual_data = list(csv.reader(actual_file, delimiter=delimiter_actual_data, quotechar=quotechar_actual_data))
-            else:
-                actual_data = list(csv.reader((line.replace(delimiter_actual_data, chr(255)) for line in actual_file), delimiter=chr(255), quotechar=quotechar_actual_data))
-            #
-            if len(delimiter_expected_data) == 1:
-                expected_data = list(csv.reader(expected_file, delimiter=delimiter_expected_data, quotechar=quotechar_expected_data))
-            else:
-                expected_data = list(csv.reader((line.replace(delimiter_expected_data, chr(255)) for line in expected_file), delimiter=chr(255), quotechar=quotechar_expected_data))
+        actual_data = self.__open_csv_input_file(actual_file, delimiter_actual_data, quotechar_actual_data)
+        expected_data = self.__open_csv_input_file(expected_file, delimiter_expected_data, quotechar_expected_data)
         #
         ArrayComparer.compare_data(self, actual_data, expected_data, template_literals_dict)
 
 
     def compare_text_variable_with_text_file(self, actual_text, expected_file, template_literals_dict=None):
-        if 'actual_data' not in locals():
-            raise Exception("Input Actual data unknown.")
+        self.__check_if_actual_data_is_present(actual_text)
+        self.__check_if_expected_file_is_present(expected_file)        
         #
-        if not os.path.exists(expected_file):
-            raise Exception("Input file doesn't exists: ", expected_file)
+        actual_data = self.__split_text_into_textline_array(actual_text)
+        expected_data = self.__split_textfile_into_textline_array(expected_file)
         #
-        print("expected_file: ", expected_file)
-        #
-        actual_data = []
-        for line in actual_text.split('\n'):
-            actual_data.append(line.strip('\n').split(chr(255)))
-        #
-        with open(expected_file, mode='rt', encoding='utf-8') as expected_file:
-            expected_data = []
-            for line in expected_file.readlines():
-                expected_data.append(line.strip('\n').split(chr(255)))
-            #
         ArrayComparer.compare_data(self, actual_data, expected_data, template_literals_dict)
 
 
     def compare_text_file_with_text_variable(self, actual_file, expected_text, template_literals_dict=None):
-        if not os.path.exists(actual_file):
-            raise Exception("Input file doesn't exists: ", actual_file)
+        self.__check_if_actual_file_is_present(actual_file)      
+        self.__check_if_expected_data_is_present(expected_text)
         #
-        if 'expected_text' not in locals():
-            raise Exception("Input Expected data unknown.")
-        #
-        print("actual_file: ", actual_file)
-        #
-        with open(actual_file, mode='rt', encoding='utf-8') as actual_file:
-            actual_data = []
-            for line in actual_file.readlines():
-                actual_data.append(line.strip('\n').split(chr(255)))
-            #
-        expected_data = []
-        for line in expected_text.split('\n'):
-            expected_data.append(line.strip('\n').split(chr(255)))
+        actual_data = self.__split_textfile_into_textline_array(actual_file)
+        expected_data = self.__split_text_into_textline_array(expected_text)
         #
         ArrayComparer.compare_data(self, actual_data, expected_data, template_literals_dict)
 
 
     def compare_text_variables(self, actual_text, expected_text, template_literals_dict=None):
-        if 'actual_data' not in locals():
-            raise Exception("Input Actual data unknown.")
-            #
-        if 'expected_data' not in locals():
-            raise Exception("Input Expected data unknown.")
-            #
-        actual_data = []
-        for line in actual_text.split('\n'):
-            actual_data.append(line.strip('\n').split(chr(255)))
+        self.__check_if_actual_data_is_present(actual_text)
+        self.__check_if_expected_data_is_present(expected_text) 
         #
-        expected_data = []
-        for line in expected_text.split('\n'):
-            expected_data.append(line.strip('\n').split(chr(255)))
+        actual_data = self.__split_text_into_textline_array(actual_text)
+        expected_data = self.__split_text_into_textline_array(expected_text)        
         #
         ArrayComparer.compare_data(self, actual_data, expected_data, template_literals_dict)
 
 
     def compare_text_files(self, actual_file, expected_file, template_literals_dict=None):
-        for file in (actual_file, expected_file):
-            if not os.path.exists(file):
-                raise Exception("Input file doesn't exists: ", file)
+        self.__check_if_actual_file_is_present(actual_file) 
+        self.__check_if_expected_file_is_present(expected_file)            
         #
-        print("actual_file: ", actual_file)
-        print("expected_file: ", expected_file)
-        #
-        with open(actual_file, mode='rt', encoding='utf-8') as actual_file, open(expected_file, mode='rt', encoding='utf-8') as expected_file:
-            actual_data = []
-            for line in actual_file.readlines():
-                actual_data.append(line.strip('\n').split(chr(255)))
-#            print(actual_data)
-            #
-            expected_data = []
-            for line in expected_file.readlines():
-                expected_data.append(line.strip('\n').split(chr(255)))
-#            print(expected_data)
+        actual_data = self.__split_textfile_into_textline_array(actual_file)        
+        expected_data = self.__split_textfile_into_textline_array(expected_file)
         #
         ArrayComparer.compare_data(self, actual_data, expected_data, template_literals_dict)
 
 
+
+    def __check_if_actual_data_is_present(self, data):
+        if data == None:
+            raise Exception("Actual Input data unknown.")        
+
+
+    def __check_if_expected_data_is_present(self, data):
+        if data == None:
+            raise Exception("Expected Input data unknown.")        
+
+
+    def __check_if_actual_file_is_present(self, file):
+        if os.path.exists(file):
+            print("actual_file: ", file)
+        else:
+            raise Exception("Actual Input file doesn't exists: ", file)
+
+
+    def __check_if_expected_file_is_present(self, file):
+        if os.path.exists(file):
+            print("expected_file: ", file)    
+        else:
+            raise Exception("Expected Input file doesn't exists: ", file)  
+        
+
+    def __open_csv_input_file(self, input_file, delimiter_data=",", quotechar_data='"'):
+        with open(input_file, mode='rt', encoding='utf-8') as input_file:
+            if len(delimiter_data) == 1:
+                data = list(csv.reader(input_file, delimiter=delimiter_data, quotechar=quotechar_data))
+            else:
+                data = list(csv.reader((line.replace(delimiter_data, chr(255)) for line in input_file), delimiter=chr(255), quotechar=quotechar_data))
+        #
+        return data        
+    
+
+    def __split_text_into_textline_array(self, text):
+        data = []
+        for line in text.split('\n'):
+            data.append(line.strip('\n').split(chr(255)))
+        #
+        return data
+    
+
+    def __split_textfile_into_textline_array(self, input_file):
+        with open(input_file, mode='rt', encoding='utf-8') as input_file:
+            data = []
+            for line in input_file.readlines():
+                data.append(line.strip('\n').split(chr(255)))
+        #
+        return data
+    
