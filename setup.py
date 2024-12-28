@@ -22,7 +22,7 @@ with open(join(this_directory, 'src', 'DataComparerLibrary', 'version.py')) as f
 def main():
     setup(name='DataComparerLibrary',
           version=VERSION,
-          description="For comparing csv-files or 2d-array with csv-file.",
+          description="For comparing csv-files, 2d-array with a csv-file or 2d-arrays. For comparing text-files, text variable with a text-file or text variables. Including a sorting module.",
           long_description=README,
           long_description_content_type="text/x-rst",
           url="",
@@ -38,6 +38,8 @@ def main():
               "Programming Language :: Python :: 3.9",
               "Programming Language :: Python :: 3.10",
               "Programming Language :: Python :: 3.11",
+              "Programming Language :: Python :: 3.12",
+              "Programming Language :: Python :: 3.13",                            
           ],
           keywords='robotframework testing test-automation datacompare',
           package_dir={'': 'src'},
