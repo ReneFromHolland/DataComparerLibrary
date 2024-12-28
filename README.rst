@@ -86,8 +86,12 @@ The DataComparerLibrary can be used for:
   quotechar.
 
 
+Comparing Data
+--------------
+
+
 Examples of using the DataComparerLibrary for comparing data in Python
-----------------------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Below there are some examples how to call the methods of the DataComparerLibrary in Python::
 
@@ -102,7 +106,7 @@ Below there are some examples how to call the methods of the DataComparerLibrary
 
 
 Examples of using the DataComparerLibrary keywords for comparing data in Robot Framework
-----------------------------------------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Below there are some examples how to call the keywords of the DataComparerLibrary in Robot Framework::
 
@@ -126,7 +130,7 @@ Below there are some examples how to call the keywords of the DataComparerLibrar
 
 
 Examples comparing Actual Data with Expected Data
--------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Below there is an example of actual and expected data with some different cases.
 
@@ -163,6 +167,46 @@ Based on current datetime = 2023-09-06 19:04:00  (example):
 +--------------+----------+--------------+---------------------------------+---------+-------------+
 | {INTEGER}    | Joe      | Helsinki     | {NOW()+1Y9M2D:DDMMYYYY} {SKIP}  | {SKIP}  | {PRESENT}   |
 +--------------+----------+--------------+---------------------------------+---------+-------------+
+
+
+Comparing Text
+--------------
+
+Examples of using the DataComparerLibrary for comparing text in Python
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Below there are some examples how to call the methods of the DataComparerLibrary in Python::
+
+
+    a = DataComparer
+    a.compare_text_files(self, actual_file, expected_file)
+    a.compare_text_variable_with_text_file(self, actual_text_input, expected_file)
+    a.compare_text_file_with_text_variable(self, actual_file, expected_text_input)
+    a.compare_text_variables(self, actual_text_input, expected_text_input)
+
+
+Examples of using the DataComparerLibrary keywords for comparing text in Robot Framework
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Below there are some examples how to call the keywords of the DataComparerLibrary in Robot Framework::
+
+
+    *** Settings ***
+    Library     DataComparerLibrary
+
+    *** Test Cases ***
+    Testcase_DataComparer
+        Examples
+
+    *** Keywords ***
+    Examples
+        Run Keyword And Continue On Failure  DataComparerLibrary.Compare Text Files  C:\\Users\\actual.txt   C:\\Users\\expected.txt
+        DataComparerLibrary.Compare Text Files  C:\\Users\\actual.txt   C:\\Users\\expected.txt
+        DataComparerLibrary.Compare Text Files  C:\\Users\\actual.txt   C:\\Users\\expected.txt
+        DataComparerLibrary.Compare Text Files  C:\\Users\\actual.txt   C:\\Users\\expected.txt
+        DataComparerLibrary.Compare Text Variable With File  ${actual_text_input}  C:\\Users\\expected.txt
+        DataComparerLibrary.Compare Text File With Text Variable  C:\\Users\\actual.txt  ${expected_text_input}
+        DataComparerLibrary.Compare Text Variables  ${actual_text_input}  ${expected_text_input}
 
 
 
