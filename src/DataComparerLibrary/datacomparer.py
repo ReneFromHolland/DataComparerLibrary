@@ -1,4 +1,4 @@
-# Script for comparing actual data from an output file or a SQL-query with expected data in a file.
+# Script for comparing csv-files, 2d-array with a csv-file or 2d-arrays and for comparing text-files, text variable with a text-file or text variables.
 #
 import csv
 import os

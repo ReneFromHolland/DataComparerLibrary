@@ -1,5 +1,3 @@
-# Script for comparing actual data with expected data.
-#
 import datetime
 import fnmatch
 import re
