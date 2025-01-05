@@ -3,6 +3,7 @@ import re
 
 from DataComparerLibrary.datetimehandler import DatetimeHandler
 from DataComparerLibrary.report import Report
+from DataComparerLibrary.tools import Tools
 
 class ArrayComparer:
     def compare_data(self, actual_data, expected_data_including_templates, template_literals_dict):
@@ -17,7 +18,7 @@ class ArrayComparer:
         number_of_rows_actual_data = len(actual_data)
         number_of_rows_expected_data = len(expected_data_including_templates)
 
-        number_of_rows = number_of_rows_actual_data if (number_of_rows_actual_data >= number_of_rows_expected_data) else number_of_rows_expected_data
+        number_of_rows = max(number_of_rows_actual_data, number_of_rows_expected_data)
 
         Report.show_2d_array(self, "Actual data", actual_data, 20)
         Report.show_2d_array(self, "Expected data", expected_data_including_templates, 20)
@@ -46,7 +47,7 @@ class ArrayComparer:
             number_of_columns_actual_data   = len(actual_data[row_nr])
             number_of_columns_expected_data = len(expected_data_including_templates[row_nr])
 
-            number_of_columns = number_of_columns_actual_data if (number_of_columns_actual_data >= number_of_columns_expected_data) else number_of_columns_expected_data
+            number_of_columns = max(number_of_columns_actual_data, number_of_columns_expected_data)
 
             for column_nr in range(number_of_columns):
                 expected_data_including_date_template = None
@@ -200,17 +201,7 @@ class ArrayComparer:
         #
         unwanted_expected_data = expected_data_field_including_date_template[position_open_brace+5:position_close_brace]
         #
-        if ArrayComparer.is_integer(self, unwanted_expected_data):
+        if Tools.is_integer(self, unwanted_expected_data):
             unwanted_expected_data = int(unwanted_expected_data)
         return unwanted_expected_data
-
-
-
-    def is_integer(self, string):
-        if string[0] == '-':
-            # if a negative number
-            return string[1:].isdigit()
-        else:
-            return string.isdigit()
-
 
