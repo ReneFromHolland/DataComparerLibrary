@@ -29,17 +29,17 @@ class ArrayComparer:
             if row_nr >= number_of_rows_actual_data:
                 difference_found = True
                 if len(expected_data_including_templates[row_nr]) == 0:
-                    Report.show_comparation_result(self, row_nr, 0, "", "", "Row actual data is not PRESENT. Row expected data is EMPTY.")
+                    Report.show_differences_comparation_result(self, row_nr, 0, "", "", "Row actual data is not PRESENT. Row expected data is EMPTY.")
                 else:
-                    Report.show_comparation_result(self, row_nr, 0, "", expected_data_including_templates[row_nr][0], "Row actual data is not PRESENT.")
+                    Report.show_differences_comparation_result(self, row_nr, 0, "", expected_data_including_templates[row_nr][0], "Row actual data is not PRESENT.")
                 continue
             #
             if row_nr >= number_of_rows_expected_data:
                 difference_found = True
                 if len(actual_data[row_nr]) == 0:
-                    Report.show_comparation_result(self, row_nr, 0, "", "", "Row actual data is EMPTY. Row expected data is not PRESENT.")
+                    Report.show_differences_comparation_result(self, row_nr, 0, "", "", "Row actual data is EMPTY. Row expected data is not PRESENT.")
                 else:
-                    Report.show_comparation_result(self, row_nr, 0, actual_data[row_nr][0], "", "Row expected data is not PRESENT.")
+                    Report.show_differences_comparation_result(self, row_nr, 0, actual_data[row_nr][0], "", "Row expected data is not PRESENT.")
                 continue
             #
             number_of_columns_actual_data   = len(actual_data[row_nr])
@@ -54,12 +54,12 @@ class ArrayComparer:
                 #
                 if column_nr >= number_of_columns_actual_data:
                     difference_found = True
-                    Report.show_comparation_result(self, row_nr, column_nr, "", expected_data_including_templates[row_nr][column_nr], "Column actual data is not PRESENT.")
+                    Report.show_differences_comparation_result(self, row_nr, column_nr, "", expected_data_including_templates[row_nr][column_nr], "Column actual data is not PRESENT.")
                     continue
                 #
                 if column_nr >= number_of_columns_expected_data:
                     difference_found = True
-                    Report.show_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], "", "Column expected data is not PRESENT.")
+                    Report.show_differences_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], "", "Column expected data is not PRESENT.")
                     continue
                 #
                 if actual_data[row_nr][column_nr] != expected_data_including_templates[row_nr][column_nr]:
@@ -79,10 +79,10 @@ class ArrayComparer:
                     if str(actual_data[row_nr][column_nr]) == str(expected_data_including_templates[row_nr][column_nr]):
                         if isinstance(actual_data[row_nr][column_nr], int) and isinstance(expected_data_including_templates[row_nr][column_nr], str):
                             difference_found = True
-                            Report.show_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "There is a difference between actual and expected data. Actual data is an integer while expected data is a string.")
+                            Report.show_differences_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "There is a difference between actual and expected data. Actual data is an integer while expected data is a string.")
                         elif isinstance(actual_data[row_nr][column_nr], str) and isinstance(expected_data_including_templates[row_nr][column_nr], int):
                             difference_found = True
-                            Report.show_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "There is a difference between actual and expected data. Actual data is a string while expected data is an integer.")
+                            Report.show_differences_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "There is a difference between actual and expected data. Actual data is a string while expected data is an integer.")
                         continue
                     #
                     # If data in actual and expected field doesn't match, check if a template has been used in expected data.
@@ -91,13 +91,13 @@ class ArrayComparer:
                             if not actual_data[row_nr][column_nr]:
                                 # No data is present in actual data field.
                                 difference_found = True
-                                Report.show_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "Actual data field is not PRESENT")
+                                Report.show_differences_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "Actual data field is not PRESENT")
                         #
                         case "{EMPTY}":
                             if actual_data[row_nr][column_nr]:
                                 # Actual data field is not empty.
                                 difference_found = True
-                                Report.show_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "Actual data field is not EMPTY")
+                                Report.show_differences_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "Actual data field is not EMPTY")
                         #
                         case "{INTEGER}":
                             if isinstance(actual_data[row_nr][column_nr], int):
@@ -108,7 +108,7 @@ class ArrayComparer:
                             if not actual_data[row_nr][column_nr].isdigit():
                                 # Not positive integer field.
                                 difference_found = True
-                                Report.show_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "Actual data field is not INTEGER.")
+                                Report.show_differences_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "Actual data field is not INTEGER.")
                         #
                         case "{SKIP}":
                             pass
@@ -140,20 +140,20 @@ class ArrayComparer:
                                 matches = ["{NOW():", "{NOW()+", "{NOW()-"]
                                 if all([x not in expected_data_including_templates[row_nr][column_nr].upper() for x in matches]):
                                     difference_found = True
-                                    Report.show_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "NOW() has been found in expected data field, but format is incorrect.")
+                                    Report.show_differences_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "NOW() has been found in expected data field, but format is incorrect.")
                                     continue
                                 #
                                 expected_data = DatetimeHandler.replace_date_template_in_expected_data(self, expected_data_including_date_template)
                                 #
                                 if expected_data == -1:
                                     difference_found = True
-                                    Report.show_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "NOW() has been found in expected data field, but format is incorrect.")
+                                    Report.show_differences_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "NOW() has been found in expected data field, but format is incorrect.")
                                 else:
                                     if not fnmatch.fnmatch(actual_data[row_nr][column_nr], expected_data):
                                         # No match despite using of wildcard(s).
                                         difference_found = True
-                                        Report.show_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "Date template format displayed. See also next message line.")
-                                        Report.show_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data, "There is a difference between actual and expected data.")
+                                        Report.show_differences_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "Date template format displayed. See also next message line.")
+                                        Report.show_differences_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data, "There is a difference between actual and expected data.")
                                 continue
                                 #
                             elif "{NOT(" in expected_data_including_templates[row_nr][column_nr].upper():
@@ -163,18 +163,18 @@ class ArrayComparer:
                                     if actual_data[row_nr][column_nr] == unwanted_expected_data:
                                         # Unwanted match.
                                         difference_found = True
-                                        Report.show_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "NOT() template format displayed. See also next message line.")
-                                        Report.show_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], unwanted_expected_data, "Actual and expected data are equal. However actual data should NOT be equal to the expected data!!!")
+                                        Report.show_differences_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "NOT() template format displayed. See also next message line.")
+                                        Report.show_differences_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], unwanted_expected_data, "Actual and expected data are equal. However actual data should NOT be equal to the expected data!!!")
                                 except Exception as exception_message:
                                     # print(f"An exception occurred: {exception_message}")
                                     difference_found = True
-                                    Report.show_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "NOT() has been found in expected data field, but format is incorrect.")
+                                    Report.show_differences_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "NOT() has been found in expected data field, but format is incorrect.")
                                 #
                             else:
                                 if not skip_exception_rule_used:
                                     # No exceptions.
                                     difference_found = True
-                                    Report.show_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "There is a difference between actual and expected data. No exception rule has been used.")
+                                    Report.show_differences_comparation_result(self, row_nr, column_nr, actual_data[row_nr][column_nr], expected_data_including_templates[row_nr][column_nr], "There is a difference between actual and expected data. No exception rule has been used.")
                             #
         if difference_found:
             print("\n\n\n")
