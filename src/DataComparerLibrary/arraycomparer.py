@@ -23,9 +23,7 @@ class ArrayComparer:
         Report.show_2d_array(self, "Actual data", actual_data, 20)
         Report.show_2d_array(self, "Expected data", expected_data_including_templates, 20)
 
-        print()
-        print("=== Overview differences between actual and expected data")
-        print()
+        Report().show_header_differences_actual_and_expected_data()
 
         for row_nr in range(number_of_rows):
             if row_nr >= number_of_rows_actual_data:
@@ -185,6 +183,7 @@ class ArrayComparer:
             print("There are no differences between actual and expected data found.")
             print("\n\n\n")
 
+        #Report().show_footer_comparation_result()
 
 
     def __get_unwanted_expected_data(self, expected_data_field_including_date_template):
