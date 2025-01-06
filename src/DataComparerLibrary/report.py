@@ -1,6 +1,6 @@
 class Report:
     def show_header_and_data(self, header, data):
-        Report.__show_2d_array(self, header, data, 20)
+        Report.show_2d_array(self, header, data, 20)
 
 
     def show_header_differences_actual_and_expected_data(self):
@@ -24,7 +24,7 @@ class Report:
             print("\n\n\n")
 
 
-    def __show_2d_array(self, title, reader_file_list, column_width):
+    def show_2d_array(self, title, reader_file_list, column_width):
         max_length_title = 30
         title = title[0:(max_length_title - 1)]
         length_title = len(title)
