@@ -1,3 +1,3 @@
 # encoding=utf-8
 
-VERSION = '0.845'
+VERSION = '0.846'
