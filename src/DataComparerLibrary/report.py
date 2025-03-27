@@ -1,30 +1,36 @@
 class Report:
-    def show_header_and_data(self, header, data):
-        Report.show_2d_array(self, header, data, 20)
+    @staticmethod
+    def show_header_and_data(header, data):
+        Report.show_2d_array(header, data, 20)
 
 
-    def show_header_differences_actual_and_expected_data(self):
+    @staticmethod
+    def show_header_differences_actual_and_expected_data():
         print()
         print("=== Overview differences between actual and expected data")
         print()
 
 
 #show_difference_between_actual_and_expected_data
-    def show_differences_comparation_result(self, row_number, column_number, actual_data, expected_data, error_message):
+    @staticmethod
+    def show_differences_comparation_result(row_number, column_number, actual_data, expected_data, error_message):
         print("Row: ", row_number + 1, "  Column: ", column_number + 1, "  =>  Actual data: ", actual_data, "    Expected data: ", expected_data, "    Remark / Error message: ", error_message)
 
 
-    #def show_footer(self, StatusMessage().difference):
-    def show_footer_comparation_result(self):
-        if StatusMessage().difference:
+    @staticmethod
+    def show_footer_comparation_result(equal):
+        if equal:
             print("\n\n\n")
-            raise Exception("There is a difference between actual and expected data. See detail information.")
-        else:
             print("There are no differences between actual and expected data found.")
             print("\n\n\n")
+        else:
+            print("\n\n\n")
+            raise Exception("There is a difference between actual and expected data. See detail information.")
 
 
-    def show_2d_array(self, title, reader_file_list, column_width):
+
+    @staticmethod
+    def show_2d_array(title, reader_file_list, column_width):
         max_length_title = 30
         title = title[0:(max_length_title - 1)]
         length_title = len(title)
