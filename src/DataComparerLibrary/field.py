@@ -13,7 +13,7 @@ class Field:
         self.column_nr = column_nr
 
 
-    def equals(self, other_field_data_including_templates_and_literals, template_literals_dict):
+    def equals(self, other_field_including_templates_and_literals, template_literals_dict):
         equal = True
 
         expected_data_including_date_template = None
@@ -21,7 +21,7 @@ class Field:
         skip_exception_rule_used = False
 
         # Replace literal templates with fixed external strings.
-        other_field_data_including_templates = self.__replace_template_literals_dict(other_field_data_including_templates_and_literals.field_data, template_literals_dict)
+        other_field_data_including_templates = self.__replace_template_literals_dict(other_field_including_templates_and_literals.field_data, template_literals_dict)
 
         if self.field_data == other_field_data_including_templates:
             return True

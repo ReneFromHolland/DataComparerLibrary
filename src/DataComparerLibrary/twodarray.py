@@ -5,10 +5,6 @@ from DataComparerLibrary.report import Report
 class TwoDArray:
     def __init__(self, two_d_array_data):
         self.two_d_array_data = two_d_array_data
-
-        if self.two_d_array_data and type(self.two_d_array_data[0]) is not list:  # only a single row
-            self.two_d_array_data = [self.two_d_array_data,]  # add row to tuple of lenght 1
-
         self.number_of_rows = len(two_d_array_data)
 
 
@@ -20,10 +16,10 @@ class TwoDArray:
         for row_nr in range(max_number_of_rows):
             if row_nr >= self.number_of_rows:
                 equal = False
-                if len(other_two_d_array[row_nr]) == 0:
+                if len(other_two_d_array.two_d_array_data[row_nr]) == 0:
                     Report.show_differences_comparation_result(row_nr, 0, "", "", "Row actual data is not PRESENT. Row expected data is EMPTY.")
                 else:
-                    Report.show_differences_comparation_result(row_nr, 0, "", other_two_d_array[row_nr][0], "Row actual data is not PRESENT.")
+                    Report.show_differences_comparation_result(row_nr, 0, "", other_two_d_array.two_d_array_data[row_nr][0], "Row actual data is not PRESENT.")
                 continue
             #
             if row_nr >= other_two_d_array.number_of_rows:

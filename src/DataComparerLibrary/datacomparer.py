@@ -87,6 +87,9 @@ class DataComparer:
 
     @staticmethod
     def compare_data(actual_data, expected_data, template_literals_dict=None):
+        actual_data = DataComparer.__make_data_2d_compliant(actual_data)
+        expected_data = DataComparer.__make_data_2d_compliant(expected_data)
+        #
         Report.show_header_and_data("Actual data", actual_data)
         Report.show_header_and_data("Expected data", expected_data)
         Report.show_header_differences_actual_and_expected_data()
@@ -149,4 +152,11 @@ class DataComparer:
             for line in input_file.readlines():
                 data.append(line.strip('\n').split(chr(255)))
         #
+        return data
+
+
+    @staticmethod
+    def __make_data_2d_compliant(data):
+        if data and type(data[0]) is not list:  # only a single row
+            data = [data,]  # add row to tuple of lenght 1
         return data
