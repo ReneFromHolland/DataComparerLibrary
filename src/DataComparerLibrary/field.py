@@ -20,6 +20,9 @@ class Field:
         expected_data_with_wildcard = None
         skip_exception_rule_used = False
 
+        if self.field_data == other_field_including_templates_and_literals.field_data:
+            return True
+
         # Replace literal templates with fixed external strings.
         other_field_data_including_templates = self.__replace_template_literals_dict(other_field_including_templates_and_literals.field_data, template_literals_dict)
 
@@ -28,6 +31,11 @@ class Field:
 
         # Verify if difference is a matter of string versus integer representation.
         if Field.__is_same_value_but_different_types(self, other_field_data_including_templates):
+            return False
+
+        if isinstance(other_field_data_including_templates, int):
+            # A real integer.
+            Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "There is a difference between actual and expected data. No match with literals or templates.")
             return False
 
         # If data in actual and expected field doesn't match, check if a template has been used in expected data.
