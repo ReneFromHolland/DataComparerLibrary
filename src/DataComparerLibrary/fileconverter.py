@@ -3,7 +3,6 @@
 # Currently, methods are implemented to remove or replace a separate linefeed within a record. Records are ended by carriage return linefeed.
 #
 import csv
-import openpyxl
 import os
 import re
 import warnings
@@ -67,27 +66,3 @@ class FileConverter:
         #
         return output
 
-
-    @staticmethod
-    def convert_excel_file_to_csv_file(excel_file, csv_file):
-        if not os.path.exists(excel_file):
-            raise Exception("Input file doesn't exists: ", excel_file)
-
-        if not excel_file.endswith('.xslx') and not excel_file.endswith('.xslm') and not excel_file.endswith('.xls') and not excel_file.endswith('.xlm'):
-            raise Exception("Input file is not a Excel-file: ", excel_file)
-
-        if not excel_file.endswith('.csv'):
-            raise Exception("Input file is not a csv-file: ", csv_file)
-
-        with warnings.catch_warnings():
-             warnings.filterwarnings("ignore", message="Workbook contains no defaultstyle", category=UserWarning)
-             #
-             excel = openpyxl.load_workbook(excel_file)
-             # select the active sheet
-             sheet = excel.active
-             #
-             # write the data in a csv-file
-             col = csv.writer(open(csv_file, 'w', newline=""))
-             #
-             for row in sheet.rows:
-                col.writerow([cell.value for cell in row])
