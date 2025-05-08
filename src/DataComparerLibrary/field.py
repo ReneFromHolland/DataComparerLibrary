@@ -136,7 +136,7 @@ class Field:
     def __replace_template_literals_dict(data, template_literals_dict):
         if template_literals_dict:
             for i in range(0, len(template_literals_dict)):
-                data = data.replace(list(template_literals_dict.keys())[i], list(template_literals_dict.values())[i])
+                data = data.replace(list(template_literals_dict.keys())[i], str(list(template_literals_dict.values())[i]))
         return data
 
 
