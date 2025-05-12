@@ -19,14 +19,12 @@ class Row:
             if column_nr >= self.number_of_columns:
                 equal = False
                 Report.show_differences_comparation_result(self.row_nr, column_nr, "", other_row.row_data[column_nr], "Column actual data is not PRESENT.")
-                continue
             #
-            if column_nr >= other_row.number_of_columns:
+            elif column_nr >= other_row.number_of_columns:
                 equal = False
                 Report.show_differences_comparation_result(self.row_nr, column_nr, self.row_data[column_nr], "", "Column expected data is not PRESENT.")
-                continue
             #
-            if not Field(self.row_data[column_nr], self.row_nr, column_nr).equals(Field(other_row.row_data[column_nr], self.row_nr, column_nr), template_literals_dict):
+            elif not Field(self.row_data[column_nr], self.row_nr, column_nr).equals(Field(other_row.row_data[column_nr], self.row_nr, column_nr), template_literals_dict):
                 equal = False
             #
         return equal

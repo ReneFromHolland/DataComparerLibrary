@@ -20,17 +20,15 @@ class TwoDArray:
                     Report.show_differences_comparation_result(row_nr, 0, "", "", "Row actual data is not PRESENT. Row expected data is EMPTY.")
                 else:
                     Report.show_differences_comparation_result(row_nr, 0, "", other_two_d_array.two_d_array_data[row_nr][0], "Row actual data is not PRESENT.")
-                continue
             #
-            if row_nr >= other_two_d_array.number_of_rows:
+            elif row_nr >= other_two_d_array.number_of_rows:
                 equal = False
                 if len(self.two_d_array_data[row_nr]) == 0:
                     Report.show_differences_comparation_result(row_nr, 0, "", "", "Row actual data is EMPTY. Row expected data is not PRESENT.")
                 else:
                     Report.show_differences_comparation_result(row_nr, 0, self.two_d_array_data[row_nr][0], "", "Row expected data is not PRESENT.")
-                continue
             #
-            if not Row(self.two_d_array_data[row_nr], row_nr).equals(Row(other_two_d_array.two_d_array_data[row_nr], row_nr), template_literals_dict):
+            elif not Row(self.two_d_array_data[row_nr], row_nr).equals(Row(other_two_d_array.two_d_array_data[row_nr], row_nr), template_literals_dict):
                 equal = False
             #
         return equal
