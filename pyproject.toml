@@ -24,7 +24,8 @@ classifiers=[
     "Programming Language :: Python :: 3.13",
 ]
 requires-python = ">=3.8"
-keywords = ["robotframework", "testing", "test-automation", "datacompare"]
+keywords = ["robotframework", "Robot Framework","testing", "test-automation", "datacompare", "data compare", "compare csv files",
+            "compare text files", "compare txt files", "compare arrays", "compare text"]
 
 
 [tool.setuptools]
