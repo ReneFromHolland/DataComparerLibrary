@@ -143,12 +143,10 @@ class Field:
     def __is_same_value_but_different_types(self, other_field_data):
         # Verify if difference is a matter of string versus integer representation.
         if str(self.field_data) == str(other_field_data):
-            if isinstance(self.field_data, int) and isinstance(other_field_data, str):
-                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data, "There is a difference between actual and expected data. Actual data is an integer while expected data is a string.")
-                return True
-            elif isinstance(self.field_data, str) and isinstance(other_field_data, int):
-                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data, "There is a difference between actual and expected data. Actual data is a string while expected data is an integer.")
-                return True
+            type_field_data = Tools.get_full_typename(self.field_data)
+            type_other_field_data = Tools.get_full_typename(other_field_data)
+            Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data, "There is a difference between actual and expected data. Actual data is a(n) " +  type_field_data + " while expected data is a(n) " + type_other_field_data + ".")
+            return True
         return False
 
 
