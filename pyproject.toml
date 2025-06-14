@@ -7,9 +7,9 @@ build-backend = "setuptools.build_meta"
 name = "DataComparerLibrary"
 description = "For comparing csv-files, 2d-array with a csv-file or 2d-arrays. For comparing text-files, text variable with a text-file or text variables. Including a sorting module."
 version = "0.850"
-dependencies = ["requests"]
+dependencies = ["python-dateutil"]
 authors = [{ name = "René Philip Zuijderduijn", email = "datacomparerlibrary@outlook.com" }]
-readme = { "file" = "README.rst", "content-type" = "text/markdown" }
+readme = "README.rst"
 license = "Apache-2.0"
 license-files = ["LICENSE.txt"]
 classifiers=[
@@ -22,6 +22,7 @@ classifiers=[
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Testing",
 ]
 requires-python = ">=3.8"
 keywords = ["robotframework", "Robot Framework","testing", "test-automation", "datacompare", "data compare", "compare csv files",
