@@ -1,3 +1,5 @@
+import importlib.metadata
+
 class Tools:
     @staticmethod
     def is_integer(string):
@@ -21,3 +23,9 @@ class Tools:
             case _:
                 long_variable_type = None
         return long_variable_type
+
+
+    @staticmethod
+    def get_version_of_program(program_name):
+        version = importlib.metadata.version(program_name)
+        return version
