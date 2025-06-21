@@ -90,6 +90,7 @@ class DataComparer:
         actual_data = DataComparer.__make_data_2d_compliant(actual_data)
         expected_data = DataComparer.__make_data_2d_compliant(expected_data)
         #
+        Report.show_version_of_program()
         Report.show_header_and_data("Actual data", actual_data)
         Report.show_header_and_data("Expected data", expected_data)
         Report.show_header_differences_actual_and_expected_data()
