@@ -39,7 +39,7 @@ class Report:
 
 
     @staticmethod
-    def show_2d_array(title, reader_file_list, column_width):
+    def show_2d_array(title, data, column_width):
         max_length_title = 30
         title = title[0:(max_length_title - 1)]
         length_title = len(title)
@@ -47,7 +47,7 @@ class Report:
         print("=" * (max_length_title - length_title))
         print()
         #
-        for row in reader_file_list:
+        for row in data:
             for cell_value in row:
                 #if isinstance(cell_value, str):
                 if isinstance(cell_value, float) or isinstance(cell_value, int) or isinstance(cell_value, str):
