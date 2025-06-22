@@ -129,9 +129,21 @@ Below there are some examples how to call the keywords of the DataComparerLibrar
         DataComparerLibrary.Compare Data Files  C:\\Users\\actual.csv   C:\\Users\\expected.csv  delimiter_actual_data=@#@  delimiter_expected_data=@#@
         DataComparerLibrary.Compare Data Files  C:\\Users\\actual.csv   C:\\Users\\expected.csv
         DataComparerLibrary.Compare Data 2d Array With File  ${actual_2d_matrix_data_input}  C:\\Users\\expected.csv  delimiter_expected_data=\t
+
+        Set Variable  ${postcode}  52091
+        ${expected_2d_matrix_data_input}=  Evaluate  [['NAME', 'STREET', 'NUMBER', 'CITY', 'POSTCODE'], ['JOHN', 'Lund gatan', 10, 'STOCKHOLM', '${postcode}']]
+
         DataComparerLibrary.Compare Data File With 2d Array  C:\\Users\\actual.csv  ${expected_2d_matrix_data_input}  delimiter_actual_data=;
         DataComparerLibrary.Compare Data 2d Arrays  ${actual_2d_matrix_data_input}  ${expected_2d_matrix_data_input}
 
+        &{literal_dict}=  Create Dictionary  {lit_1}=${some_variable}
+        ...                                  {lit_2}='Text with space'
+        ...                                  {version}=${version}
+        ...                                  {build_number}=${build_number}
+        ...                                  {env}=${env}
+        ...                                  {firstname}=${name}
+        ...                                  {capital}='Stockholm'
+        DataComparerLibrary.Compare Data Files  ${actual_input_file_template_literal}  ${expected_input_file_template_literal}  delimiter_actual_data=;  delimiter_expected_data=;  template_literals_dict=${literal_dict}
 
 Examples comparing Actual Data with Expected Data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -143,38 +155,42 @@ Below there is an example of actual and expected data with some different cases.
 Based on current datetime = 2023-09-06 19:04:00  (example):
 
 
-+--------------+-------------+--------------+---------------------------------+------------+-------------+
-|                                   Actual csv file or 2d-array                                          |
-+--------------+-------------+--------------+---------------------------------+------------+-------------+
-| id           | name        | city         | start datetime                  | code       | password    |
-+==============+=============+==============+=================================+============+=============+
-| 87           | John        | London       | 2019-09-01 10:00:15             | abc1       | xxxxxxxx    |
-+--------------+-------------+--------------+---------------------------------+------------+-------------+
-| 88           | Bert        | Amsterdam    | 2023/09/06 19:02:00             |            | xxxxxxxx    |
-+--------------+-------------+--------------+---------------------------------+------------+-------------+
-| 89           | Klaas       | Brussel      | 23-8-6 12:04:17                 | 5ghi       | xxxxxxxx    |
-+--------------+-------------+--------------+---------------------------------+------------+-------------+
-| 90           | Joe         | Helsinki     | 08062025 12:04:17               | 99fg       | xxxxxxxx    |
-+--------------+-------------+--------------+---------------------------------+------------+-------------+
-| 91           | Mike        | Berlin       | 2023/09/06 19:02:00             | 123        | xxxxxxxx    |
-+--------------+-------------+--------------+---------------------------------+------------+-------------+
++--------------+---------------+--------------+---------------------------------+------------+-------------+
+|                                   Actual csv file or 2d-array                                            |
++--------------+---------------+--------------+---------------------------------+------------+-------------+
+| id           | name          | city         | start datetime                  | code       | password    |
++==============+===============+==============+=================================+============+=============+
+| 87           | John          | London       | 2019-09-01 10:00:15             | abc1       | xxxxxxxx    |
++--------------+---------------+--------------+---------------------------------+------------+-------------+
+| 88           | Bert          | Amsterdam    | 2023/09/06 19:02:00             |            | xxxxxxxx    |
++--------------+---------------+--------------+---------------------------------+------------+-------------+
+| 89           | Klaas         | Brussel      | 23-8-6 12:04:17                 | 5ghi       | xxxxxxxx    |
++--------------+---------------+--------------+---------------------------------+------------+-------------+
+| 90           | Joe           | Helsinki     | 08062025 12:04:17               | 99fg       | xxxxxxxx    |
++--------------+---------------+--------------+---------------------------------+------------+-------------+
+| 91           | Mike          | Berlin       | 2023/09/06 19:02:00             | 123        | xxxxxxxx    |
++--------------+---------------+--------------+---------------------------------+------------+-------------+
+| 92           | Kurt          | Paris        | 2023/09/06 19:02:00             | 123        | xxxxxxxx    |
++--------------+---------------+--------------+---------------------------------+------------+-------------+
 
 
-+--------------+-------------+--------------+---------------------------------+------------+-------------+
-|                                   Expected csv file or 2d-array                                        |
-+--------------+-------------+--------------+---------------------------------+------------+-------------+
-| id           | name        | city         | start datetime                  | code       | password    |
-+==============+=============+==============+=================================+============+=============+
-| {INTEGER}    | John        | London       | {NOW()-4Y5D:YYYY-MM-DD}         | abc1       | {PRESENT}   |
-+--------------+-------------+--------------+---------------------------------+------------+-------------+
-| {INTEGER}    | Bert        | Amsterdam    | {NOW():YYYY/MM/DD} {SKIP}       | {EMPTY}    | {PRESENT}   |
-+--------------+-------------+--------------+---------------------------------+------------+-------------+
-| {INTEGER}    | Klaas       | Brussel      | {NOW()-1M:YY-M-D} {SKIP}        | 5ghi       | {PRESENT}   |
-+--------------+-------------+--------------+---------------------------------+------------+-------------+
-| {INTEGER}    | Joe         | Helsinki     | {NOW()+1Y9M2D:DDMMYYYY} {SKIP}  | {SKIP}     | {PRESENT}   |
-+--------------+-------------+--------------+---------------------------------+------------+-------------+
-| {INTEGER}    | NOT("Jack"} | Berlin       | {NOW():YYYY/MM/DD} {SKIP}       | {NOT(456)} | {PRESENT}   |
-+--------------+-------------+--------------+---------------------------------+------------+-------------+
++--------------+---------------+--------------+---------------------------------+------------+-------------+
+|                                   Expected csv file or 2d-array                                          |
++--------------+---------------+--------------+---------------------------------+------------+-------------+
+| id           | name          | city         | start datetime                  | code       | password    |
++==============+===============+==============+=================================+============+=============+
+| {INTEGER}    | John          | London       | {NOW()-4Y5D:YYYY-MM-DD}         | abc1       | {PRESENT}   |
++--------------+---------------+--------------+---------------------------------+------------+-------------+
+| {INTEGER}    | Bert          | Amsterdam    | {NOW():YYYY/MM/DD} {SKIP}       | {EMPTY}    | {PRESENT}   |
++--------------+---------------+--------------+---------------------------------+------------+-------------+
+| {INTEGER}    | Klaas         | Brussel      | {NOW()-1M:YY-M-D} {SKIP}        | 5ghi       | {PRESENT}   |
++--------------+---------------+--------------+---------------------------------+------------+-------------+
+| {INTEGER}    | Joe           | Helsinki     | {NOW()+1Y9M2D:DDMMYYYY} {SKIP}  | {SKIP}     | {PRESENT}   |
++--------------+---------------+--------------+---------------------------------+------------+-------------+
+| {INTEGER}    | {NOT("Jack")} | Berlin       | {NOW():YYYY/MM/DD} {SKIP}       | {NOT(456)} | {PRESENT}   |
++--------------+---------------+--------------+---------------------------------+------------+-------------+
+| {INTEGER}    | {firstname}   | {capital}    | {NOW():YYYY/MM/DD} {SKIP}       | 123        | {PRESENT}   |
++--------------+---------------+--------------+---------------------------------+------------+-------------+
 
 
 Comparing Text
