@@ -66,30 +66,36 @@ class Field:
 
 
     def __match_data_with_template_keyword(self, other_field_data_including_templates):
-        match_status = MatchStatus.MISMATCH
+        match_status = MatchStatus.MATCH
         #
         match other_field_data_including_templates.upper():
             case "{PRESENT}":
-                if self.field_data:
-                    match_status = MatchStatus.MATCH
-                else:
+                if not self.field_data:
                     # No data is present in actual data field.
+                    match_status = MatchStatus.MISMATCH
                     Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "Actual data field is not PRESENT")
             #
             case "{EMPTY}":
-                if not self.field_data:
-                    match_status = MatchStatus.MATCH
-                else:
+                if self.field_data:
                     # Actual data field is not empty.
+                    match_status = MatchStatus.MISMATCH
                     Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "Actual data field is not EMPTY")
             #
             case "{INTEGER}":
                 if isinstance(self.field_data, int):
                     # A real integer (positive or negative).
                     match_status = MatchStatus.MATCH
+                #
+                elif self.field_data.isdigit():
+                    # Test on INTEGER temporary less tide again
+                    # Positive integer field in string format.
+                    match_status = MatchStatus.MATCH
+#                   Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "There is a difference between actual and expected data. Actual data is an INTEGER in string format while an INTEGER is expected.")
                 elif isinstance(self.field_data, str):
+                    match_status = MatchStatus.MISMATCH
                     Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "There is a difference between actual and expected data. Actual data is a string while an INTEGER is expected.")
                 else:
+                    match_status = MatchStatus.MISMATCH
                     Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "There is a difference between actual and expected data. Actual data field is not INTEGER.")
             #
             case "{SKIP}":
