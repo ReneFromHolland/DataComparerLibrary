@@ -88,7 +88,7 @@ if %choice%==1 (
     echo 2. Upload to https://test.pypi.org/
     twine upload --verbose --repository testpypi dist/* -u __token__
 ) else (
-    echo 3. Geen upload.
+    echo 3. No upload.
 )
 
 echo:
