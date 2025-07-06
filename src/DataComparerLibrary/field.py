@@ -115,21 +115,16 @@ class Field:
         skip_exception_rule_used = False
 
         if "{SKIP}" in other_field_data_including_templates.upper() or "{DATETIME_FORMAT():YYYYMMDDHHMMSSFF6}" in other_field_data_including_templates.upper():
-            if other_field_data_including_templates.upper() == "{SKIP}":
-                # Complete actual data field will be skipped for verification.
-                pass
-            else:
-                # Part(s) of the actual data field will be skipped for verification.
-                # Replace {SKIP}, ignoring cases, by wildcard *.
-                # compiled = re.compile(re.escape("{SKIP}"), re.IGNORECASE)
-                # expected_data_with_wildcard = compiled.sub("*", other_field_data_including_templates)
-                compiled = re.compile(re.escape("{SKIP}"), re.IGNORECASE)
-                compiled2 = re.compile(re.escape("{DATETIME_FORMAT():YYYYMMDDHHMMSSFF6}"), re.IGNORECASE)
-                expected_data_with_wildcard = compiled2.sub("*", compiled.sub("*", other_field_data_including_templates))
-                #
-                if fnmatch.fnmatch(self.field_data, expected_data_with_wildcard):
-                    skip_exception_rule_used = True
-                    # continue
+            # Part(s) of the actual data field will be skipped for verification.
+            # Replace {SKIP}, ignoring cases, by wildcard *.
+            # compiled = re.compile(re.escape("{SKIP}"), re.IGNORECASE)
+            # expected_data_with_wildcard = compiled.sub("*", other_field_data_including_templates)
+            compiled = re.compile(re.escape("{SKIP}"), re.IGNORECASE)
+            compiled2 = re.compile(re.escape("{DATETIME_FORMAT():YYYYMMDDHHMMSSFF6}"), re.IGNORECASE)
+            expected_data_with_wildcard = compiled2.sub("*", compiled.sub("*", other_field_data_including_templates))
+            #
+            if fnmatch.fnmatch(self.field_data, expected_data_with_wildcard):
+                skip_exception_rule_used = True
         #
         if expected_data_with_wildcard == None:
             # Wildcards not used.
