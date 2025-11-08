@@ -9,15 +9,15 @@ class DatetimeHandler:
         position_open_brace_today_text  = expected_data_field_including_date_template.find("{NOW()")
         position_close_brace_today_text = expected_data_field_including_date_template.find("}", position_open_brace_today_text)
         #
+        if position_open_brace_today_text == -1:
+            raise Exception("Open brace '{NOW()' not found.")
+        #
         if position_close_brace_today_text == -1:
-            return -1
-        # Close brace of TODAY has been found.
+            raise Exception("Close brace '}' not found.")
         #
         expected_datetime_template_string = expected_data_field_including_date_template[position_open_brace_today_text:position_close_brace_today_text + 1]
         expected_datetime_string = DatetimeHandler.__convert_datetime_template_to_datetime(self, expected_datetime_template_string)
         #
-        if expected_datetime_string == -1:
-            return -1
         # Datetime_template_string has been converted to datetime.
         #
         # Replace expected_datetime_template_string by expected_datetime_string in expected_data_field_including_template.
@@ -48,18 +48,16 @@ class DatetimeHandler:
                     # Adjust date time based on current date time.
                     relative_datetime_template_string = template_datetime_string_splitted[0].replace('{NOW()', '')
                     relative_datetime = DatetimeHandler.__convert_relative_datetime_template_to_relative_datetime(self, relative_datetime_template_string[1:len(relative_datetime_template_string)])
-                    if relative_datetime == -1:
-                        return -1
-                    else:
-                        match relative_datetime_template_string[0]:
-                            case "+":
-                                expected_datetime = datetime.datetime.now() + relative_datetime
-                            case "-":
-                                expected_datetime = datetime.datetime.now() - relative_datetime
-                            case _:
-                                return -1
+                    #
+                    match relative_datetime_template_string[0]:
+                        case "+":
+                            expected_datetime = datetime.datetime.now() + relative_datetime
+                        case "-":
+                            expected_datetime = datetime.datetime.now() - relative_datetime
+                        case _:
+                            raise Exception("'+' or '-' sign not found in '{NOW() relative datetime template string'.")
             case _:
-                return -1
+                raise Exception("Datetime template format in {NOW() datetime string is incorrect. Split sign ':' to separate expectation and format has been found more than once.")
         #
         year = expected_datetime.strftime("%Y")
         year_2_digits = expected_datetime.strftime("%y")
@@ -80,7 +78,7 @@ class DatetimeHandler:
         period = regex.match(relative_datetime_str)
 
         if not period:
-            return -1
+            raise Exception("Relative datetime template format in '{NOW() datetime template string' " + relative_datetime_str + " is incorrect.")
 
         period = period.groupdict()
         kwargs = {}
@@ -97,4 +95,4 @@ class DatetimeHandler:
         if kwargs:
             return dateutil.relativedelta.relativedelta(**kwargs)
         else:
-            return -1    
+            raise Exception("Relative datetime template format in '{NOW() datetime template string' " + relative_datetime_str + " is incorrect.")

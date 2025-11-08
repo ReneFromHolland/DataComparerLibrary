@@ -137,20 +137,23 @@ class Field:
             if all([x not in other_field_data_including_templates.upper() for x in matches]):
                 equal = False
                 Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "NOW() has been found in expected data field, but format is incorrect.")
-                #continue
+                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "Colon character ':', sign '+' or '-'' is missing behind NOW().")
+                return False
             #
-            expected_data = DatetimeHandler.replace_date_template_in_expected_data(self, expected_data_including_date_template)
-            #
-            if expected_data == -1:
-                equal = False
-                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "NOW() has been found in expected data field, but format is incorrect.")
-            else:
+            try:
+                expected_data = DatetimeHandler.replace_date_template_in_expected_data(self, expected_data_including_date_template)
+                #
                 if not fnmatch.fnmatch(self.field_data, expected_data):
                     # No match despite using of wildcard(s).
                     equal = False
                     Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "Date template format displayed. See also next message line.")
                     Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, expected_data, "There is a difference between actual and expected data.")
-            # continue
+                #
+            except Exception as exception_message:
+                equal = False
+                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "NOW() has been found in expected data field, but format is incorrect.")
+                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, exception_message)
+
             #
         elif "{NOT(" in other_field_data_including_templates.upper():
             try:
@@ -160,11 +163,11 @@ class Field:
                     # Unwanted match.
                     equal = False
                     Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "NOT() template format displayed. See also next message line.")
-                    Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, unwanted_expected_data, "Actual and expected data are equal. However actual data should NOT be equal to the expected data!!!")
+                    Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, "<> "+ str(unwanted_expected_data), "Actual and expected data are equal. However actual data should NOT be equal to the expected data!!!")
             except Exception as exception_message:
-                # print(f"An exception occurred: {exception_message}")
                 equal = False
                 Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "NOT() has been found in expected data field, but format is incorrect.")
+                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, exception_message)
             #
         else:
             if not skip_exception_rule_used:
@@ -182,11 +185,11 @@ class Field:
         #
         if position_open_brace == -1:
             #print("position_open_brace:", position_open_brace)
-            raise Exception()
+            raise Exception("Open brace '{NOT(' not found.")
         #
         if position_close_brace == -1:
             #print("position_close_brace:", position_close_brace)
-            raise Exception()
+            raise Exception("Close brace '}' not found.")
         #
         unwanted_expected_data = expected_data_field_including_date_template[position_open_brace+5:position_close_brace]
         #
