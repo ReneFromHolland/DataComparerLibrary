@@ -49,9 +49,12 @@ class Field:
 
     @staticmethod
     def __replace_template_literals_dict(data, template_literals_dict):
-        if template_literals_dict:
-            for i in range(0, len(template_literals_dict)):
-                data = data.replace(list(template_literals_dict.keys())[i], str(list(template_literals_dict.values())[i]))
+        try:
+            if template_literals_dict:
+                for i in range(0, len(template_literals_dict)):
+                    data = data.replace(list(template_literals_dict.keys())[i], str(list(template_literals_dict.values())[i]))
+        except Exception as exception_message:
+            raise Exception(f"Error during replacing literals. The argument passed to parameter 'template_literals_dict': {template_literals_dict}. Error message: {exception_message}.")
         return data
 
 
