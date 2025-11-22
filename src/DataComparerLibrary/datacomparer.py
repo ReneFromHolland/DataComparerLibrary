@@ -87,7 +87,7 @@ class DataComparer:
 
     @staticmethod
     def compare_data(actual_data, expected_data, template_literals_dict=None):
-        if template_literals_dict != None and not isinstance(template_literals_dict, dict):
+        if template_literals_dict is not None and not isinstance(template_literals_dict, dict):
             raise Exception(f"The argument passed to parameter 'template_literals_dict' is not a dictionary. Value is: '{template_literals_dict}'.")
         actual_data = DataComparer.__make_data_2d_compliant(actual_data)
         expected_data = DataComparer.__make_data_2d_compliant(expected_data)
