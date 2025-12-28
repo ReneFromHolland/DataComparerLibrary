@@ -4,5 +4,6 @@ build/
 dist/
 *.egg-info/
 *.egg
+results
 venv
 .vscode/settings.json
