@@ -18,14 +18,18 @@ echo ===========================================================================
 echo Step 1. Old pip package directories and files will be removed.
 echo =================================================================================
 cd ..
-rmdir /s /q build
-rmdir /s /q dist
-rmdir /s /q src\DataComparerLibrary.egg-info
-rmdir /s /q src\DataComparerLibrary\__pycache__
+rmdir /s /q .mypy_cache 2>null
+rmdir /s /q build 2>null
+rmdir /s /q dist 2>null
+rmdir /s /q src\DataComparerLibrary.egg-info 2>null
+rmdir /s /q src\DataComparerLibrary\__pycache__ 2>null
+rmdir /s /q test\python\__pycache__ 2>null
+for /d /r %%d in (.robocop_cache) do (rd /s /q "%%d" 2>null)
+cd tools
 
 set "dummy="
 set /p DUMMY=Hit ENTER to continue...
-if defined dummy (echo not just ENTER was pressed) else (echo just ENTER was pressed)
+if defined dummy (exit /b) else (echo ENTER was pressed)
 
 echo:
 echo:
@@ -33,7 +37,7 @@ echo ===========================================================================
 echo Step 2. Old local pip package will be removed.
 echo =================================================================================
 echo:
-pip uninstall DataComparerLibrary
+call pip uninstall DataComparerLibrary
 
 echo:
 echo:
@@ -54,7 +58,7 @@ twine check dist/*
 
 set "dummy="
 set /p DUMMY=Hit ENTER to continue...
-if defined dummy (echo not just ENTER was pressed) else (echo just ENTER was pressed)
+if defined dummy (exit /b) else (echo ENTER was pressed)
 
 echo:
 echo:
@@ -66,7 +70,7 @@ pip list
 
 set "dummy="
 set /p DUMMY=Hit ENTER to continue...
-if defined dummy (echo not just ENTER was pressed) else (echo just ENTER was pressed)
+if defined dummy (exit /b) else (echo ENTER was pressed)
 
 echo:
 echo:
@@ -96,4 +100,4 @@ echo:
 
 set "dummy="
 set /p DUMMY=Hit ENTER to continue...
-if defined dummy (echo not just ENTER was pressed) else (echo just ENTER was pressed)
+if defined dummy (exit /b) else (echo ENTER was pressed)
