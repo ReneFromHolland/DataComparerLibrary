@@ -22,12 +22,16 @@ classifiers=[
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Software Development :: Testing",
 ]
 requires-python = ">=3.8"
 keywords = ["robotframework", "Robot Framework","testing", "test-automation", "datacompare", "data compare", "compare csv files",
             "compare text files", "compare txt files", "compare arrays", "compare text"]
 
+[project.urls]
+"Homepage" = "https://github.com/ReneFromHolland/DataComparerLibrary"
+"Keyword docs" = "https://github.com/ReneFromHolland/DataComparerLibrary"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
