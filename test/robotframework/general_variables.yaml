@@ -1,0 +1,6 @@
+# General global variables
+
+relative_testdata_path:                      test\data
+input_folder:                                input
+actual_output_folder:                        actual_output
+expected_output_folder:                      expected_output
