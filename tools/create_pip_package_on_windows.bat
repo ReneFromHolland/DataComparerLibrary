@@ -23,15 +23,15 @@ echo ===========================================================================
 rem Go to the root directoy
 cd ..
 
-rmdir /s /q .mypy_cache 2>null
-rmdir /s /q build 2>null
-rmdir /s /q dist 2>null
-rmdir /s /q results 2>null
-rmdir /s /q src\DataComparerLibrary.egg-info 2>null
-rmdir /s /q src\DataComparerLibrary\__pycache__ 2>null
-rmdir /s /q test\python\__pycache__ 2>null
-for /d /r %%d in (.robocop_cache) do (rd /s /q "%%d" 2>null)
-del /s /q null
+rmdir /s /q .mypy_cache 2>nul
+rmdir /s /q build 2>nul
+rmdir /s /q dist 2>nul
+rmdir /s /q results 2>nul
+rmdir /s /q src\DataComparerLibrary.egg-info 2>nul
+rmdir /s /q src\DataComparerLibrary\__pycache__ 2>nul
+rmdir /s /q test\python\__pycache__ 2>nul
+for /d /r %%d in (.robocop_cache) do (rd /s /q "%%d" 2>nul)
+del /s /q null >nul
 rem cd tools
 
 set "dummy="
