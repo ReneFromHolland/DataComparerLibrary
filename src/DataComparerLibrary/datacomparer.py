@@ -14,7 +14,7 @@ class DataComparer:
         #
         expected_data = self.__get_data_from_csv_input_file(expected_file, delimiter_expected_data, quotechar_expected_data)
         #
-        DataComparer.compare_data(actual_data, expected_data, template_literals_dict)
+        DataComparer.__compare_data(actual_data, expected_data, template_literals_dict)
 
 
     def compare_data_file_with_2d_array(self, actual_file, expected_data, delimiter_actual_data=",", quotechar_actual_data='"', template_literals_dict=None):
@@ -23,14 +23,14 @@ class DataComparer:
         #
         actual_data = self.__get_data_from_csv_input_file(actual_file, delimiter_actual_data, quotechar_actual_data)
         #
-        DataComparer.compare_data(actual_data, expected_data, template_literals_dict)
+        DataComparer.__compare_data(actual_data, expected_data, template_literals_dict)
 
 
     def compare_data_2d_arrays(self, actual_data, expected_data, template_literals_dict=None):
         self.__check_if_actual_data_is_present(actual_data)
         self.__check_if_expected_data_is_present(expected_data)
         #
-        DataComparer.compare_data(actual_data, expected_data, template_literals_dict)
+        DataComparer.__compare_data(actual_data, expected_data, template_literals_dict)
 
 
     def compare_data_files(self, actual_file, expected_file, delimiter_actual_data=",", delimiter_expected_data=",", quotechar_actual_data='"', quotechar_expected_data='"', template_literals_dict=None):
@@ -40,7 +40,7 @@ class DataComparer:
         actual_data = self.__get_data_from_csv_input_file(actual_file, delimiter_actual_data, quotechar_actual_data)
         expected_data = self.__get_data_from_csv_input_file(expected_file, delimiter_expected_data, quotechar_expected_data)
         #
-        DataComparer.compare_data(actual_data, expected_data, template_literals_dict)
+        DataComparer.__compare_data(actual_data, expected_data, template_literals_dict)
 
 
 
@@ -51,7 +51,7 @@ class DataComparer:
         actual_data = self.__split_text_into_textline_array(actual_text)
         expected_data = self.__split_textfile_into_textline_array(expected_file)
         #
-        DataComparer.compare_data(actual_data, expected_data, template_literals_dict)
+        DataComparer.__compare_data(actual_data, expected_data, template_literals_dict)
 
 
     def compare_text_file_with_text_variable(self, actual_file, expected_text, template_literals_dict=None):
@@ -61,7 +61,7 @@ class DataComparer:
         actual_data = self.__split_textfile_into_textline_array(actual_file)
         expected_data = self.__split_text_into_textline_array(expected_text)
         #
-        DataComparer.compare_data(actual_data, expected_data, template_literals_dict)
+        DataComparer.__compare_data(actual_data, expected_data, template_literals_dict)
 
 
     def compare_text_variables(self, actual_text, expected_text, template_literals_dict=None):
@@ -71,7 +71,7 @@ class DataComparer:
         actual_data = self.__split_text_into_textline_array(actual_text)
         expected_data = self.__split_text_into_textline_array(expected_text)
         #
-        DataComparer.compare_data(actual_data, expected_data, template_literals_dict)
+        DataComparer.__compare_data(actual_data, expected_data, template_literals_dict)
 
 
     def compare_text_files(self, actual_file, expected_file, template_literals_dict=None):
@@ -81,12 +81,12 @@ class DataComparer:
         actual_data = self.__split_textfile_into_textline_array(actual_file)
         expected_data = self.__split_textfile_into_textline_array(expected_file)
         #
-        DataComparer.compare_data(actual_data, expected_data, template_literals_dict)
+        DataComparer.__compare_data(actual_data, expected_data, template_literals_dict)
 
 
 
     @staticmethod
-    def compare_data(actual_data, expected_data, template_literals_dict=None):
+    def __compare_data(actual_data, expected_data, template_literals_dict=None):
         if template_literals_dict is not None and not isinstance(template_literals_dict, dict):
             raise Exception(f"The argument passed to parameter 'template_literals_dict' is not a dictionary. Value is: '{template_literals_dict}'.")
         actual_data = DataComparer.__make_data_2d_compliant(actual_data)
