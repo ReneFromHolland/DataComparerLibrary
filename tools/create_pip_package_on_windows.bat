@@ -7,10 +7,11 @@ echo ===========================================================================
 echo:
 echo Step 1. Old pip package directories, cache - and result files will be removed.
 echo Step 2. Old local pip package will be removed.
-echo Step 3. New local pip package will be created.
-echo Step 4. New package will be checked.
-echo Step 5. Local installed packages will be displayed.
-echo Step 6. Upload to pypi.org or test.pypi.org.
+echo Step 3. Create keyword website page with libdoc.
+echo Step 4. New local pip package will be created.
+echo Step 5. New package will be checked.
+echo Step 6. Local installed packages will be displayed.
+echo Step 7. Upload to pypi.org or test.pypi.org.
 echo:
 echo =================================================================================
 
@@ -49,7 +50,27 @@ call pip uninstall DataComparerLibrary
 echo:
 echo:
 echo =================================================================================
-echo Step 3. New local pip package will be created.
+echo Step 3. Create keyword website page with libdoc.
+echo =================================================================================
+echo:
+echo 1. Create keyword website page with libdoc
+echo 2. Leave keyword website unchanged
+echo:
+set /p choice= "Please Select one of the above options :"
+echo:
+
+if %choice%==1 (
+    echo 1. Create keyword website page with libdoc
+    echo:
+    libdoc src/DataComparerLibrary "DataComparerLibraryKeywords.html"
+) else (
+    echo 2. No changes
+)
+
+echo:
+echo:
+echo =================================================================================
+echo Step 4. New local pip package will be created.
 echo =================================================================================
 echo:
 pip install .
@@ -58,7 +79,7 @@ python -m build
 echo:
 echo:
 echo =================================================================================
-echo Step 4. New package will be checked.
+echo Step 5. New package will be checked.
 echo =================================================================================
 echo:
 twine check dist/*
@@ -70,7 +91,7 @@ if defined dummy (exit /b) else (echo ENTER was pressed)
 echo:
 echo:
 echo =================================================================================
-echo Step 5. Local installed packages will be displayed.
+echo Step 6. Local installed packages will be displayed.
 echo =================================================================================
 echo:
 pip list
@@ -82,7 +103,7 @@ if defined dummy (exit /b) else (echo ENTER was pressed)
 echo:
 echo:
 echo =================================================================================
-echo Step 6. Upload to pypi.org or test.pypi.org.
+echo Step 7. Upload to pypi.org or test.pypi.org.
 echo =================================================================================
 echo:
 echo 1. Upload to https://pypi.org/
