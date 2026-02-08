@@ -6,6 +6,11 @@ DataComparerLibrary
    :local:
 
 
+Documentation
+===================
+See `keyword documentation`_ for available keywords and more information
+about the library in general.
+
 Preparation
 ===================
 
@@ -13,13 +18,17 @@ Installation
 ------------
 
 If you already have Python with `pip <https://pip.pypa.io>`_ installed,
-you can simply run::
+you can simply run:
+
+.. sourcecode::
 
     pip install DataComparerLibrary
     pip install --upgrade DataComparerLibrary
 
 
-Also the following pip package is needed::
+Also the following pip package is needed:
+
+.. sourcecode::
 
     pip install python-dateutil
 
@@ -27,7 +36,9 @@ Also the following pip package is needed::
 Import statement for the DataComparerLibrary in Python
 ------------------------------------------------------
 
-from DataComparerLibrary.datacomparer import DataComparer
+.. sourcecode::
+
+  from DataComparerLibrary.datacomparer import DataComparer
 
 
 
@@ -43,8 +54,16 @@ The DataComparerLibrary can be used for:
     - comparing a csv-file or text-file with a 2d-matrix
     - comparing 2d-matrices
 
-| In case a difference between actual and expected data is found an exception wil be given. In Robot Framework
-  the result will be set to failed.
+| The DataComparer will present the actual data and the expected data.
+| In case a difference between actual and expected data is found an exception wil be given. Also these differences will be presented. 
+| In Robot Framework the comparison result will be set to failed.
+|
+
+|
+
+Special options
+---------------
+
 | A strait comparison can be made, but the DataComparerLibrary offers also some special comparison options described
   beneath.
 |
@@ -112,8 +131,9 @@ Below there are some examples how to call the methods of the DataComparerLibrary
 Examples of using the DataComparerLibrary keywords for comparing data in Robot Framework
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Below there are some examples how to call the keywords of the DataComparerLibrary in Robot Framework::
+Below there are some examples how to call the keywords of the DataComparerLibrary in Robot Framework:
 
+.. sourcecode::
 
     *** Settings ***
     Library     DataComparerLibrary
@@ -199,8 +219,9 @@ Comparing Text
 Examples of using the DataComparerLibrary for comparing text in Python
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Below there are some examples how to call the methods of the DataComparerLibrary in Python::
+Below there are some examples how to call the methods of the DataComparerLibrary in Python:
 
+.. sourcecode::
 
     a = DataComparer
     a.compare_text_files(self, actual_file, expected_file)
@@ -212,8 +233,9 @@ Below there are some examples how to call the methods of the DataComparerLibrary
 Examples of using the DataComparerLibrary keywords for comparing text in Robot Framework
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Below there are some examples how to call the keywords of the DataComparerLibrary in Robot Framework::
+Below there are some examples how to call the keywords of the DataComparerLibrary in Robot Framework:
 
+.. sourcecode::
 
     *** Settings ***
     Library     DataComparerLibrary
@@ -273,8 +295,9 @@ Special sorting
 Examples of using the DataComparerLibrary keywords for sorting data in Robot Framework
 ----------------------------------------------------------------------------------------
 
-Below there are some examples how to call the keywords of the DataComparerLibrary in Robot Framework::
+Below there are some examples how to call the keywords of the DataComparerLibrary in Robot Framework:
 
+.. sourcecode::
 
     *** Settings ***
     Library     DataComparerLibrary
@@ -319,8 +342,9 @@ the input file. The result will be written to an output file.
 Examples of using the DataComparerLibrary keywords for preparing data in Robot Framework
 ----------------------------------------------------------------------------------------
 
-Below there are some examples how to call the keywords of the DataComparerLibrary in Robot Framework::
+Below there are some examples how to call the keywords of the DataComparerLibrary in Robot Framework:
 
+.. sourcecode::
 
     *** Settings ***
     Library     DataComparerLibrary
@@ -342,3 +366,6 @@ Below there are some examples how to call the keywords of the DataComparerLibrar
         DataComparerLibrary.Replace Separate Lf  input_file_with_separate_lf.txt  output_file_lf_replaced_by_character_or_string.txt  ${SPACE}
 
 
+
+
+.. _Keyword Documentation: https://https://github.com/ReneFromHolland/DataComparerLibrary/blob/main/DataComparerLibraryKeywords.html
