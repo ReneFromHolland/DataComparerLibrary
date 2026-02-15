@@ -368,4 +368,4 @@ Below there are some examples how to call the keywords of the DataComparerLibrar
 
 
 
-.. _Keyword Documentation: https://https://github.com/ReneFromHolland/DataComparerLibrary/blob/main/DataComparerLibraryKeywords.html
+.. _Keyword Documentation: https://renefromholland.github.io/DataComparerLibrary/DataComparerLibraryKeywords.html
