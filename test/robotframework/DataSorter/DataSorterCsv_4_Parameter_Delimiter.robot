@@ -6,6 +6,8 @@ Documentation     Feature: Sorting data${\n}
 ...     Sorting per column can be done as a string or as an integer.${\n}
 ...     In case the column number is added to the list of columns as a string, it will be sorted as a string.${\n}
 ...     In case the column number is added to the list of columns as an integer, it will be sorted as an integer.${\n}
+...
+...    Testcases in order to see if sorting of data works fine for different types of delimiters.
 
 Library         DataComparerLibrary
 
