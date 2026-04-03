@@ -74,7 +74,7 @@ Sorting data from a csv File - Header, Data and Trailer present - Sort on out of
     [Documentation]  Sorting data from a csv File - Delimiter Semicolon - Header, Data and Trailer present - Sort on out of range column 4 alphabetically
     [Tags]  CSV  Sort_by_columns
     VAR  @{sorting_column_4} =  4
-    ${msg} =  Run Keyword And Expect Error  ("Probably selected column doesn't exist. Correct argument 'sort_on_columns_list'. Error message: ", 'IndexError', '–', IndexError('list index out of range'))  DataComparerLibrary.Sort CSV File  ${path_input_files}${/}input_file_header_data_trailer_lines.txt  ${path_actual_output_files}${/}oactual_output_header_data_trailer_lines_sort_index_put_of_range.txt  number_of_header_lines=2  number_of_trailer_lines=3  sort_on_columns_list=${sorting_column_4}
+    ${msg} =  Run Keyword And Expect Error  ("Probably selected column doesn't exist. Correct argument 'sort_on_columns_list'. Error message: ", 'IndexError', '–', IndexError('list index out of range'))  DataComparerLibrary.Sort CSV File  ${path_input_files}${/}input_file_header_data_trailer_lines.txt  ${path_actual_output_files}${/}output_header_data_trailer_lines_sort_index_put_of_range.txt  number_of_header_lines=2  number_of_trailer_lines=3  sort_on_columns_list=${sorting_column_4}
     Log  ${msg}
 
 
