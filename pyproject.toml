@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "DataComparerLibrary"
 description = "For comparing csv-files, 2d-array with a csv-file or 2d-arrays. For comparing text-files, text variable with a text-file or text variables. Including a sorting module."
-version = "0.856"
+version = "0.857"
 dependencies = ["python-dateutil"]
 authors = [{ name = "René Philip Zuijderduijn", email = "datacomparerlibrary@outlook.com" }]
 readme = "README.rst"
@@ -32,6 +32,9 @@ keywords = ["robotframework", "Robot Framework","testing", "test-automation", "d
 [project.urls]
 "Homepage" = "https://github.com/ReneFromHolland/DataComparerLibrary"
 "Keyword docs" = "https://github.com/ReneFromHolland/DataComparerLibrary"
+"Source" = "https://github.com/ReneFromHolland/DataComparerLibrary"
+"Issue Tracker" = "https://github.com/ReneFromHolland/DataComparerLibrary/issues"
+"Documentation" = "https://github.com/ReneFromHolland/DataComparerLibrary"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
