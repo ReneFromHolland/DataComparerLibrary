@@ -112,28 +112,9 @@ class Field:
 
     def __match_data_with_template(self, other_field_data_including_templates):
         equal = True
-
-        expected_data_including_date_template = None
-        expected_data_with_wildcard = None
-        skip_exception_rule_used = False
-
-        if "{SKIP}" in other_field_data_including_templates.upper() or "{DATETIME_FORMAT():YYYYMMDDHHMMSSFF6}" in other_field_data_including_templates.upper():
-            # Part(s) of the actual data field will be skipped for verification.
-            # Replace {SKIP}, ignoring cases, by wildcard *.
-            # compiled = re.compile(re.escape("{SKIP}"), re.IGNORECASE)
-            # expected_data_with_wildcard = compiled.sub("*", other_field_data_including_templates)
-            compiled = re.compile(re.escape("{SKIP}"), re.IGNORECASE)
-            compiled2 = re.compile(re.escape("{DATETIME_FORMAT():YYYYMMDDHHMMSSFF6}"), re.IGNORECASE)
-            expected_data_with_wildcard = compiled2.sub("*", compiled.sub("*", other_field_data_including_templates))
-            #
-            if fnmatch.fnmatch(self.field_data, expected_data_with_wildcard):
-                skip_exception_rule_used = True
         #
-        if expected_data_with_wildcard == None:
-            # Wildcards not used.
-            expected_data_including_date_template = other_field_data_including_templates
-        else:
-            expected_data_including_date_template = expected_data_with_wildcard
+        expected_data_with_skips_replaced = None
+        expected_data_with_skips_replaced = Field.__replace_skips(other_field_data_including_templates)
         #
         if "{NOW()" in other_field_data_including_templates.upper():
             matches = ["{NOW():", "{NOW()+", "{NOW()-"]
@@ -144,7 +125,7 @@ class Field:
                 return False
             #
             try:
-                expected_data = DatetimeHandler.replace_date_template_in_expected_data(self, expected_data_including_date_template)
+                expected_data = DatetimeHandler.replace_date_template_in_expected_data(self, expected_data_with_skips_replaced)
                 #
                 if not fnmatch.fnmatch(self.field_data, expected_data):
                     # No match despite using of wildcard(s).
@@ -160,7 +141,7 @@ class Field:
             #
         elif "{NOT(" in other_field_data_including_templates.upper():
             try:
-                unwanted_expected_data = Field.__get_unwanted_expected_data(expected_data_including_date_template)
+                unwanted_expected_data = Field.__get_unwanted_expected_data(expected_data_with_skips_replaced)
                 #
                 if self.field_data == unwanted_expected_data:
                     # Unwanted match.
@@ -173,12 +154,30 @@ class Field:
                 Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, exception_message)
             #
         else:
-            if not skip_exception_rule_used:
+            if expected_data_with_skips_replaced == other_field_data_including_templates:
                 # No exceptions.
                 equal = False
                 Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "There is a difference between actual and expected data. No exception rule has been used.")
         #
         return equal
+
+    @staticmethod
+    def __replace_skips(field_data):
+        field_data_with_skips_replaced_by_wildcard = None
+        #
+        if "{SKIP}" in field_data.upper() or "{DATETIME_FORMAT():YYYYMMDDHHMMSSFF6}" in field_data.upper():
+            # Part(s) of the actual data field will be skipped for verification.
+            # Replace {SKIP}, ignoring cases, by wildcard *.
+            # compiled = re.compile(re.escape("{SKIP}"), re.IGNORECASE)
+            # field_data_with_wildcard = compiled.sub("*", field_data)
+            compiled = re.compile(re.escape("{SKIP}"), re.IGNORECASE)
+            compiled2 = re.compile(re.escape("{DATETIME_FORMAT():YYYYMMDDHHMMSSFF6}"), re.IGNORECASE)
+            field_data_with_skips_replaced_by_wildcard = compiled2.sub("*", compiled.sub("*", field_data))
+        #
+        if field_data_with_skips_replaced_by_wildcard == None:
+            # Wildcards not used.
+            field_data_with_skips_replaced_by_wildcard = field_data
+        return field_data_with_skips_replaced_by_wildcard
 
 
     @staticmethod
@@ -199,5 +198,3 @@ class Field:
         if Tools.is_integer(unwanted_expected_data):
             unwanted_expected_data = int(unwanted_expected_data)
         return unwanted_expected_data
-
-
