@@ -117,27 +117,13 @@ class Field:
         expected_data_with_skips_replaced = Field.__replace_skips(other_field_data_including_templates)
         #
         if "{NOW()" in other_field_data_including_templates.upper():
-            matches = ["{NOW():", "{NOW()+", "{NOW()-"]
-            if all([x not in other_field_data_including_templates.upper() for x in matches]):
-                equal = False
-                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "NOW() has been found in expected data field, but format is incorrect.")
-                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "Colon character ':', sign '+' or '-'' is missing behind NOW().")
-                return False
+            expected_data_with_nows_replaced = Field.__replace_now(self, expected_data_with_skips_replaced, other_field_data_including_templates)
             #
-            try:
-                expected_data = DatetimeHandler.replace_date_template_in_expected_data(self, expected_data_with_skips_replaced)
-                #
-                if not fnmatch.fnmatch(self.field_data, expected_data):
-                    # No match despite using of wildcard(s).
-                    equal = False
-                    Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "Date template format displayed. See also next message line.")
-                    Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, expected_data, "There is a difference between actual and expected data.")
-                #
-            except Exception as exception_message:
+            if not fnmatch.fnmatch(self.field_data, expected_data_with_nows_replaced):
+                # No match despite using of wildcard(s).
                 equal = False
-                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "NOW() has been found in expected data field, but format is incorrect.")
-                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, exception_message)
-
+                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "Date template format displayed. See also next message line.")
+                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, expected_data_with_nows_replaced, "There is a difference between actual and expected data.")
             #
         elif "{NOT(" in other_field_data_including_templates.upper():
             try:
@@ -161,6 +147,7 @@ class Field:
         #
         return equal
 
+
     @staticmethod
     def __replace_skips(field_data):
         field_data_with_skips_replaced_by_wildcard = None
@@ -175,9 +162,28 @@ class Field:
             field_data_with_skips_replaced_by_wildcard = compiled2.sub("*", compiled.sub("*", field_data))
         #
         if field_data_with_skips_replaced_by_wildcard == None:
-            # Wildcards not used.
+            # No {SKIP}'s found.
             field_data_with_skips_replaced_by_wildcard = field_data
         return field_data_with_skips_replaced_by_wildcard
+
+
+    def __replace_now(self, converted_expected_field_data, original_expected_field_data):
+        while "{NOW()" in converted_expected_field_data.upper():
+            matches = ["{NOW():", "{NOW()+", "{NOW()-"]
+            if all([x not in converted_expected_field_data.upper() for x in matches]):
+                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, original_expected_field_data, "NOW() has been found in expected data field, but format is incorrect.")
+                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, original_expected_field_data, "Colon character ':', sign '+' or '-'' is missing behind NOW().")
+                break
+            #
+            try:
+                converted_expected_field_data = DatetimeHandler.replace_date_template_in_expected_data(self, converted_expected_field_data)
+                #
+            except Exception as exception_message:
+                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, original_expected_field_data, "NOW() has been found in expected data field, but format is incorrect.")
+                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, original_expected_field_data, exception_message)
+                break
+            #
+        return converted_expected_field_data
 
 
     @staticmethod
