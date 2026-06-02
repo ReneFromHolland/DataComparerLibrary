@@ -140,10 +140,14 @@ class Field:
                 Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, exception_message)
             #
         else:
-            if expected_data_with_skips_replaced == other_field_data_including_templates:
-                # No exceptions.
+            if not fnmatch.fnmatch(self.field_data, expected_data_with_skips_replaced):
                 equal = False
-                Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "There is a difference between actual and expected data. No exception rule has been used.")
+                #
+                if expected_data_with_skips_replaced == other_field_data_including_templates:
+                    # No exceptions.
+                    Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "There is a difference between actual and expected data. No exception rule has been used.")
+                else:
+                    Report.show_differences_comparation_result(self.row_nr, self.column_nr, self.field_data, other_field_data_including_templates, "There is a difference between actual and expected data.")
         #
         return equal
 
